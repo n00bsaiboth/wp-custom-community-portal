@@ -1,0 +1,8 @@
+.vscode/*
+!.vscode/wp-custom-community-portal.code-workspace
+docs/*
+sql/*
+!sql/wordpress.sql
+*.log
+*.tmp
+node_modules/*
