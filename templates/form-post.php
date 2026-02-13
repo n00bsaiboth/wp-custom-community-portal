@@ -1,5 +1,7 @@
-<?php if (!is_user_logged_in()): ?>
-    <p>You must be logged in to post.</p>
+
+
+<?php if ( !wccp_user_has_permission() ): ?>
+    <p>You do not have permission to post a new thread in the community portal.</p>
     <?php return; ?>
 <?php endif; ?>
 

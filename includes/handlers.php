@@ -1,7 +1,5 @@
 <?php
 
-add_action('init', 'wccp_handle_create_post');
-
 function wccp_handle_create_post() {
 
     if (!isset($_POST['wccp_submit_post'])) {
@@ -39,7 +37,7 @@ function wccp_handle_create_post() {
     exit;
 }
 
-add_action('init', 'wccp_handle_reply');
+add_action('init', 'wccp_handle_create_post');
 
 function wccp_handle_reply() {
 
@@ -84,6 +82,8 @@ function wccp_handle_reply() {
 
     exit;
 }
+
+add_action('init', 'wccp_handle_reply');
 
 function wccp_get_safe_redirect_url() {
 

@@ -112,3 +112,26 @@ function wccp_secure_download() {
 }
 
 add_action('init', 'wccp_secure_download');
+
+/**
+ * Check if user has required permissions.
+ */
+function wccp_user_has_permission() {
+    return is_user_logged_in() && wccp_user_has_role('community');
+}
+
+/**
+ * Check if a user has a specific role.
+ */
+function wccp_user_has_role( $role, $user_id = null ) {
+    if ( ! $user_id ) {
+        $user_id = get_current_user_id();
+    }
+
+    $user = get_userdata( $user_id );
+    if ( ! $user || empty( $user->roles ) ) {
+        return false;
+    }
+
+    return in_array( $role, (array) $user->roles, true );
+}
