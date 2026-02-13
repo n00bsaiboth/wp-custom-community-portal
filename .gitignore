@@ -6,3 +6,4 @@ sql/*
 *.log
 *.tmp
 node_modules/*
+src/*
