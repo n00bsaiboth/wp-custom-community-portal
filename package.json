@@ -1,25 +1,25 @@
 {
-  "name": "prototype",
+  "name": "wp-custom-community-portal",
   "version": "0.0.1",
-  "description": "This repository is for sandboxing different web development projects, so things can change quite vividly",
+  "description": "This is the webpack for wp-custom-community-portal plugin.",
   "scripts": {
     "dev": "webpack --mode development",
+    "build": "webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/n00bsaiboth/prototype.git"
+    "url": "git+https://github.com/n00bsaiboth/wp-custom-community-portal.git"
   },
   "keywords": [
-    "prototype",
-    "sandbox"
+    "wp-custom-community-portal"
   ],
   "author": "Jussi Jokinen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/n00bsaiboth/prototype/issues"
+    "url": "https://github.com/n00bsaiboth/wp-custom-community-portal/issues"
   },
-  "homepage": "https://github.com/n00bsaiboth/prototype#readme",
+  "homepage": "https://github.com/n00bsaiboth/wp-custom-community-portal#readme",
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@babel/preset-env": "^7.28.3",
