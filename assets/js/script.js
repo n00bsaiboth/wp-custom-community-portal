@@ -1,5 +1,1 @@
-"use strict";
-
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("WP Custom Community Portal script loaded.");
-});
+(()=>{"use strict";var t={};t.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),(()=>{var e;t.g.importScripts&&(e=t.g.location+"");var r=t.g.document;if(!e&&r&&(r.currentScript&&"SCRIPT"===r.currentScript.tagName.toUpperCase()&&(e=r.currentScript.src),!e)){var o=r.getElementsByTagName("script");if(o.length)for(var n=o.length-1;n>-1&&(!e||!/^http(s?):/.test(e));)e=o[n--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),t.p=e})();const e=t.p+"../images/sprite.svg";console.log(e),document.addEventListener("DOMContentLoaded",function(){console.log("Accordion module loaded"),document.getElementById("wccp-portal").addEventListener("click",function(t){var e=t.target.closest(".wccp-entry > header");e&&e.parentElement.classList.toggle("is-open")})})})();
