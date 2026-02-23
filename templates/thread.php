@@ -1,14 +1,36 @@
-<div class="wccp-thread wccp-level-1">
+<?php 
+  $meta = wccp_get_entry_meta($thread); 
+?>
 
-    <h3><?php echo esc_html($thread->title); ?></h3>
-    <p><?php echo esc_html($thread->content); ?></p>
+<article class="wccp-thread wccp-thread-<?php echo esc_html($thread->id); ?> wccp-entry wccp-level-1">
+    <header>
+        <h2>
+            <?php echo esc_html($thread->title); ?>
+            <svg class="icon" width="16" height="16" aria-hidden="true">
+                <use href="#arrow-down-s-line"></use>
+            </svg>
+        </h2>
 
-    <?php wccp_load_template('attachments', ['post_id' => $thread->id]); ?>
+        <small class="wccp-meta">
+            Posted by <?php echo esc_html($meta['display_name']); ?>
+            on
+            <time datetime="<?php echo esc_attr($meta['datetime']); ?>">
+                <?php echo esc_html($meta['date']); ?>
+            </time>
+        </small>
+    </header>
+
+    <div class="wccp-content">
+        <p><?php echo esc_html($thread->content); ?></p>
+        <?php wccp_load_template('attachments', ['post_id' => $thread->id]); ?>
+    </div>
+
 
     <?php
     // Render replies recursively
     wccp_render_replies($thread);
     ?>
+
 
     <?php
     // Only allow replies to level 1 topics
@@ -17,5 +39,4 @@
         'parent_level' => $thread->level
     ]);
     ?>
-
-</div>
+</article>

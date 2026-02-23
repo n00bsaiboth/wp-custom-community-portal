@@ -67,6 +67,7 @@ function wccp_handle_reply() {
     $post_id = wccp_insert_post([
         'user_id'   => get_current_user_id(),
         'parent_id' => (int) $_POST['wccp_parent_id'],
+        'title'   => sanitize_textarea_field($_POST['wccp_title']),
         'content'   => sanitize_textarea_field($_POST['wccp_content']),
         'level'     => $new_level
     ]);

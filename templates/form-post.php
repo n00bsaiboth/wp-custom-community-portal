@@ -5,22 +5,33 @@
     <?php return; ?>
 <?php endif; ?>
 
-<form method="post" enctype="multipart/form-data">
-    <?php wp_nonce_field('wccp_create_post', 'wccp_post_nonce'); ?>
+<section id="wccp-form-post" class="wccp-form-post">
+    <div>
+        <h4>Start a new thread</h4>
+    </div>
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            <?php wp_nonce_field('wccp_create_post', 'wccp_post_nonce'); ?>
 
-    <p>
-        <input type="text" name="wccp_title" placeholder="Title" required>
-    </p>
+            <div class="form-group">
+                <label for="wccp-post-title">Title</label>
+                <input type="text" id="wccp-post-title" name="wccp_title" class="wccp-post-title" placeholder="Title" required>
+            </div>
 
-    <p>
-        <textarea name="wccp_content" placeholder="Your message" required></textarea>
-    </p>
+            <div class="form-group">
+                <label for="wccp-post-content">Content</label>
+                <textarea name="wccp_content" id="wccp-post-content"class="wccp-post-content" placeholder="Your message" required></textarea>
+            </div>
 
-    <p>
-        <input type="file" name="wccp_attachment">
-    </p>
+            <div class="form-group">
+                <label for="wccp-post-attachment">Attachment (PDF)</label>
+                <input type="file" id="wccp-post-attachment" name="wccp_attachment" class="wccp-post-attachment" accept=".pdf, application/pdf">
+            </div>
 
-    <p>
-        <button type="submit" name="wccp_submit_post">Post</button>
-    </p>
-</form>
+            <div class="form-group">
+                <label for="wccp-submit-post"></label>
+                <button type="submit" name="wccp_submit_post" id="wccp-submit-post" class="wccp-submit-post">Post</button>
+            </div>
+        </form>
+    </div>
+</section>

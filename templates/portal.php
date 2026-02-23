@@ -8,7 +8,7 @@
     <?php return; ?>
 <?php endif; ?>
 
-<div class="wccp-portal">
+<section id="wccp-portal" class="wccp-portal">
 
     <?php foreach ($threads as $thread): ?>
 
@@ -16,4 +16,4 @@
 
     <?php endforeach; ?>
 
-</div>
+</section>

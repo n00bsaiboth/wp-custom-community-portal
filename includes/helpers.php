@@ -20,14 +20,23 @@ function wccp_render_replies($parent, $max_level = 3) {
 
     $children = wccp_get_children($parent->id);
 
-    foreach ($children as $child) {
-        wccp_load_template('reply', [
-            'reply' => $child
-        ]);
+    if (empty($children)) {
+        return;
+    }
+
+    wccp_load_template('replies', [
+        'replies'   => $children,
+        'max_level' => $max_level
+    ]);
+
+    // foreach ($children as $child) {
+    //    wccp_load_template('reply', [
+    //        'reply' => $child
+    //    ]);
 
         // Recursive call
         // wccp_render_replies($child, $max_level);
-    }
+    // }
 }
 
 function wccp_load_template($template, $vars = []) {
@@ -134,4 +143,38 @@ function wccp_user_has_role( $role, $user_id = null ) {
     }
 
     return in_array( $role, (array) $user->roles, true );
+}
+
+function wccp_get_entry_meta($entry) {
+
+    $user = get_userdata($entry->user_id);
+
+    $display_name = $user ? $user->display_name : __('Unknown', 'wccp');
+
+    $formatted_date = '';
+    $datetime_attr  = '';
+
+    if (!empty($entry->created_at)) {
+
+        $timestamp = strtotime($entry->created_at);
+
+        // Human readable (localized)
+        $formatted_date = date_i18n(
+            get_option('date_format') . ' ' . get_option('time_format'),
+            $timestamp
+        );
+
+        // Machine readable (ISO 8601)
+        $datetime_attr = date('c', $timestamp); 
+        // Example: 2026-02-13T00:56:00+02:00
+    }
+
+    return [
+        'display_name' => $display_name,
+        'date'         => $formatted_date,
+        'datetime'     => $datetime_attr,
+        'time_ago'     => !empty($entry->created_at)
+            ? human_time_diff($timestamp, current_time('timestamp')) . ' ' . __('ago')
+            : ''
+    ];
 }

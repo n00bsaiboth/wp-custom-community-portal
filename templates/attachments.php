@@ -5,8 +5,8 @@ if (empty($attachments)) {
 }
 ?>
 
-<div class="wccp-attachments">
-    <ul class="wccp-attachments-list">
+<section class="wccp-attachments">
+    <ul>
         <?php foreach ($attachments as $att): ?>
             <?php 
                 $download_url = add_query_arg(
@@ -22,4 +22,4 @@ if (empty($attachments)) {
             </li>
         <?php endforeach; ?>
     </ul>
-</div>
+</section>
