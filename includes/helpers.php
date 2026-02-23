@@ -126,8 +126,8 @@ add_action('init', 'wccp_secure_download');
  * Check if user has required permissions.
  */
 function wccp_user_has_permission() {
-    return is_user_logged_in() && wccp_user_has_role('community');
-}
+    $required_role = get_option('wccp_required_role', 'community');
+    return is_user_logged_in() && wccp_user_has_role($required_role);}
 
 /**
  * Check if a user has a specific role.

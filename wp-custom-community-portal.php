@@ -13,10 +13,13 @@ if (!defined('ABSPATH')) exit;
 define('WCCP_PATH', plugin_dir_path(__FILE__));
 define('WCCP_URL', plugin_dir_url(__FILE__));
 
-require_once WCCP_PATH . 'includes/helpers.php';
+
 require_once WCCP_PATH . 'includes/db.php';
+require_once WCCP_PATH . 'includes/svg.php';
+require_once WCCP_PATH . 'includes/helpers.php';
 require_once WCCP_PATH . 'includes/handlers.php';
 require_once WCCP_PATH . 'includes/shortcodes.php';
+require_once WCCP_PATH . 'includes/admin.php';
 
 /**
  * Enqueue plugin's necessary styles and scripts.
@@ -27,9 +30,5 @@ function wccp_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'wccp_enqueue_assets' );
 
-/**
- * This will be needed to print out the the arrows on the headlines
- */
-add_action('wp_footer', function () {
-    echo file_get_contents(WCCP_PATH . 'assets/images/sprite.svg');
-});
+
+
