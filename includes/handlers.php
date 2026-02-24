@@ -17,6 +17,23 @@ function wccp_handle_create_post() {
         return;
     }
 
+    $errors = [];
+    $attachment = null;
+
+    if (!empty($_FILES['wccp_attachment']['name'])) {
+
+        $attachment = wccp_handle_attachment_upload('wccp_attachment');
+
+        if (is_wp_error($attachment)) {
+            $errors[] = $attachment->get_error_message();
+        }
+    }
+    
+    if (!empty($errors)) {
+        $GLOBALS['wccp_file_upload_notifications']['create_thread'] = $errors;
+        return;
+    }    
+
     $post_id = wccp_insert_post([
         'user_id' => get_current_user_id(),
         'title'   => sanitize_text_field($_POST['wccp_title']),
@@ -25,7 +42,7 @@ function wccp_handle_create_post() {
     ]);
 
 
-    $attachment = wccp_handle_attachment_upload('wccp_attachment');
+    // $attachment = wccp_handle_attachment_upload('wccp_attachment');
 
     if ($attachment) {
         wccp_insert_attachment($post_id, $attachment);
@@ -64,6 +81,25 @@ function wccp_handle_reply() {
         return;
     }
 
+    $errors = [];
+    $attachment = null;
+
+    if (!empty($_FILES['wccp_attachment']['name'])) {
+
+        $attachment = wccp_handle_attachment_upload('wccp_attachment');
+
+        if (is_wp_error($attachment)) {
+            $errors[] = $attachment->get_error_message();
+        }
+    }
+
+    if (!empty($errors)) {
+        $form_key = 'reply_' . (int) $_POST['wccp_parent_id'];
+        $GLOBALS['wccp_file_upload_notifications'][$form_key] = $errors;
+        
+        return;
+    }
+
     $post_id = wccp_insert_post([
         'user_id'   => get_current_user_id(),
         'parent_id' => (int) $_POST['wccp_parent_id'],
@@ -72,7 +108,7 @@ function wccp_handle_reply() {
         'level'     => $new_level
     ]);
 
-    $attachment = wccp_handle_attachment_upload('wccp_attachment');
+    // $attachment = wccp_handle_attachment_upload('wccp_attachment');
 
     if ($attachment) {
         wccp_insert_attachment($post_id, $attachment);

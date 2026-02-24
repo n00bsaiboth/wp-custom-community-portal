@@ -28,6 +28,18 @@
                 <input type="file" id="wccp-post-attachment" name="wccp_attachment" class="wccp-post-attachment" accept=".pdf, application/pdf">
             </div>
 
+            <div class="wccp-notifications" style="display:none;"></div>            
+
+            <?php if (!empty($GLOBALS['wccp_file_upload_notifications']['create_thread'])): ?>
+                <div class="wccp-notifications">
+                    <?php foreach ($GLOBALS['wccp_file_upload_notifications']['create_thread'] as $error): ?>
+                        <p class="wccp-notification">
+                            <?php echo esc_html($error); ?>
+                        </p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="form-group">
                 <label for="wccp-submit-post"></label>
                 <button type="submit" name="wccp_submit_post" id="wccp-submit-post" class="wccp-submit-post">Post</button>

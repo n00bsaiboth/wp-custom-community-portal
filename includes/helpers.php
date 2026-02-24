@@ -58,6 +58,12 @@ function wccp_handle_attachment_upload($file_field) {
         return false;
     }
 
+    $validation_result = wccp_validate_file($_FILES[$file_field]);
+
+    if (is_wp_error($validation_result)) {
+        return $validation_result;
+    }
+
     $upload_dir = WP_CONTENT_DIR . '/private';
 
     if (!file_exists($upload_dir)) {
@@ -75,8 +81,31 @@ function wccp_handle_attachment_upload($file_field) {
             'original_name' => $original_name
         ];
     } else {
-        wp_die('File upload failed.');
+        return new WP_Error('upload_failed', 'File upload failed.');
     }
+}
+
+/**
+ * Validate uploaded file.
+ *
+ */
+function wccp_validate_file($file) {
+    // Max file size: 5 MB
+    $max_file_size = 5 * 1024 * 1024;
+    if ($file['size'] > $max_file_size) {
+        return new WP_Error('file_too_large', 'File is too large. Maximum size is 5MB.');
+    }
+
+    // Validate MIME type using finfo
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime_type = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    if ($mime_type !== 'application/pdf') {
+        return new WP_Error('invalid_file_type', 'Invalid file type. Only PDF files are allowed.');
+    }
+
+    return true;
 }
 
 function wccp_secure_download() {
@@ -178,3 +207,4 @@ function wccp_get_entry_meta($entry) {
             : ''
     ];
 }
+
