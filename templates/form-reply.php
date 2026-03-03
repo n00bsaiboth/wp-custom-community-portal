@@ -21,20 +21,24 @@
 
         <div class="form-group">
             <label for="wccp-reply-attachment-<?php echo (int) $parent_id; ?>">Attachment</label>
-            <input type="file" id="wccp-reply-attachment-<?php echo (int) $parent_id; ?>" name="wccp_attachment" class="wccp-attachment" accept=".pdf, application/pdf">
+            <input type="file" id="wccp-reply-attachment-<?php echo (int) $parent_id; ?>" name="wccp_attachment" class="wccp-attachment" accept="application/pdf">
         </div>
 
-        <div class="wccp-notifications" style="display:none;"></div>
+        <?php 
+            $errors = wccp_get_notifications($form_key);
+            $has_errors = !empty($errors);
+        ?>
 
-        <?php if (!empty($GLOBALS['wccp_file_upload_notifications'][$form_key])): ?>
-            <div class="wccp-notifications">
-                <?php foreach ($GLOBALS['wccp_file_upload_notifications'][$form_key] as $error): ?>
+        <div class="wccp-notifications <?php echo $has_errors ? 'is-visible' : ''; ?>">
+            <?php if ($has_errors): ?>
+                <?php foreach ($errors as $error): ?>
                     <p class="wccp-notification">
                         <?php echo esc_html($error); ?>
                     </p>
                 <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+
+        </div>
 
         <div class="form-group">
             <label for="wccp-submit-reply-<?php echo (int) $parent_id; ?>"></label>

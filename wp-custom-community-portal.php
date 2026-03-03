@@ -10,8 +10,6 @@
 
 if (!defined('ABSPATH')) exit;
 
-$GLOBALS['wccp_file_upload_notifications'] = [];
-
 define('WCCP_PATH', plugin_dir_path(__FILE__));
 define('WCCP_URL', plugin_dir_url(__FILE__));
 

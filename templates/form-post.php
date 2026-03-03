@@ -1,5 +1,3 @@
-
-
 <?php if ( !wccp_user_has_permission() ): ?>
     <p>You do not have permission to post a new thread in the community portal.</p>
     <?php return; ?>
@@ -25,20 +23,25 @@
 
             <div class="form-group">
                 <label for="wccp-post-attachment">Attachment (PDF)</label>
-                <input type="file" id="wccp-post-attachment" name="wccp_attachment" class="wccp-post-attachment" accept=".pdf, application/pdf">
+                <input type="file" id="wccp-post-attachment" name="wccp_attachment" class="wccp-post-attachment" accept="application/pdf">
             </div>
 
-            <div class="wccp-notifications" style="display:none;"></div>            
+            <?php 
+                $errors = wccp_get_notifications('create_thread');
+                $has_errors = !empty($errors);
+            ?>
 
-            <?php if (!empty($GLOBALS['wccp_file_upload_notifications']['create_thread'])): ?>
-                <div class="wccp-notifications">
-                    <?php foreach ($GLOBALS['wccp_file_upload_notifications']['create_thread'] as $error): ?>
+            <div class="wccp-notifications <?php echo $has_errors ? 'is-visible' : ''; ?>">
+
+                <?php if ($has_errors): ?>
+                    <?php foreach ($errors as $error): ?>
                         <p class="wccp-notification">
                             <?php echo esc_html($error); ?>
                         </p>
                     <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+
+            </div>
 
             <div class="form-group">
                 <label for="wccp-submit-post"></label>

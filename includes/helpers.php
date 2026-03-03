@@ -208,3 +208,58 @@ function wccp_get_entry_meta($entry) {
     ];
 }
 
+function wccp_add_notification($key, $message) {
+
+    $user_id = get_current_user_id();
+
+    if (!$user_id) {
+        return;
+    }
+
+    $transient_key = 'wccp_notifications_' . $user_id;
+
+    $notifications = get_transient($transient_key);
+
+    if (!is_array($notifications)) {
+        $notifications = [];
+    }
+
+    if (!isset($notifications[$key])) {
+        $notifications[$key] = [];
+    }
+
+    $notifications[$key][] = $message;
+
+    // Store for 60 seconds (more than enough for redirect)
+    set_transient($transient_key, $notifications, 60);
+}
+
+function wccp_get_notifications($key) {
+
+    $user_id = get_current_user_id();
+
+    if (!$user_id) {
+        return [];
+    }
+
+    $transient_key = 'wccp_notifications_' . $user_id;
+
+    $notifications = get_transient($transient_key);
+
+    if (!is_array($notifications) || empty($notifications[$key])) {
+        return [];
+    }
+
+    $messages = $notifications[$key];
+
+    // Remove this key after reading (one-time message)
+    unset($notifications[$key]);
+
+    if (empty($notifications)) {
+        delete_transient($transient_key);
+    } else {
+        set_transient($transient_key, $notifications, 60);
+    }
+
+    return $messages;
+}

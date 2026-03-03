@@ -30,7 +30,11 @@ function wccp_handle_create_post() {
     }
     
     if (!empty($errors)) {
-        $GLOBALS['wccp_file_upload_notifications']['create_thread'] = $errors;
+    
+        foreach ($errors as $error) {
+            wccp_add_notification('create_thread', $error);
+        }
+
         return;
     }    
 
@@ -95,7 +99,10 @@ function wccp_handle_reply() {
 
     if (!empty($errors)) {
         $form_key = 'reply_' . (int) $_POST['wccp_parent_id'];
-        $GLOBALS['wccp_file_upload_notifications'][$form_key] = $errors;
+        
+        foreach ($errors as $error) {
+            wccp_add_notification($form_key, $error);
+        }
         
         return;
     }
