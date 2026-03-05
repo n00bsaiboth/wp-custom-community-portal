@@ -8,6 +8,8 @@ If there is any `wp_wccp_*` tables in the database, do not remove these `wp_wccp
 
 ## How to use
 
+Generate a new 'private' folder inside wp-content folder inside of that folder we need a .htaccess file.
+
 To display the posts, threads or whatever you want to call them. Use this shortcode:
 
 `[wccp_portal]`

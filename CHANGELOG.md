@@ -2,6 +2,12 @@
 
 This plugin is currently under a development.
 
+## [0.0.3] - March 2026
+
+### Needs to be done
+
+- Add missing fields to the forms and possible columns to the database.
+
 ## [0.0.2] - February 2026
 
 ### Fixed
