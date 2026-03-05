@@ -1,0 +1,126 @@
+#wccp-portal {
+
+    .wccp-entry,      // top-level thread
+    .wccp-reply {     // replies
+
+        > header {
+            cursor: pointer;
+
+            // select any heading inside header
+            h2, h3, h4, h5 {
+                display: flex;                  // flex for text + arrow
+                align-items: center;            // vertical center
+                justify-content: space-between; // push arrow to the far right
+                margin: 0;
+                font-weight: normal;
+
+                .icon {
+                    width: 1.25em;              // scale with font size
+                    height: 1.25em;
+                    flex-shrink: 0;             // prevent shrinking
+                    transition: transform 0.2s ease;
+                }
+            }
+
+            small.wccp-meta {
+                display: block;                  // metadata below header
+                margin-top: 0.25rem;
+                font-size: 0.875rem;
+                color: #666;
+            }
+        }
+
+        > .wccp-content,
+        > .wccp-replies {
+            display: none;                      // collapsed by default
+        }
+
+        &.is-open {
+            // ONLY rotate the icon, not the heading
+            > header h2 .icon,
+            > header h3 .icon,
+            > header h4 .icon,
+            > header h5 .icon {
+                transform: rotate(180deg);     // arrow points up
+            }
+
+            > .wccp-content,
+            > .wccp-replies {
+                display: block;
+            }
+        }
+    }
+
+    // Nested replies indentation
+    .wccp-level-2 {
+        margin-left: 1rem;
+
+        .wccp-level-3 {
+            margin-left: 1rem;
+        }
+    }
+}
+
+#wccp-form-post {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    .wccp-post-title {
+        width: 100%;
+    }
+
+    .wccp-submit-post {
+        margin-top: 1rem;
+    }
+}
+
+[id^="wccp-form-reply-"] {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    .wccp-reply-title {
+        width: 100%;
+    }
+    .wccp-submit-reply {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+.wccp-thread {
+    header {
+        margin-bottom: 1rem;
+    }
+    
+    margin-bottom: 2rem;
+}
+
+.wccp-reply > .wccp-content,
+.wccp-reply > .wccp-replies {
+    display: none;
+}
+
+.wccp-reply.is-open > .wccp-content,
+.wccp-reply.is-open > .wccp-replies {
+    display: block;
+}
+
+.wccp-reply > header {
+    cursor: pointer;
+}
+
+.wccp-notifications {
+    margin-top: 0.5rem;
+
+    .wccp-notification {
+        color: #b00020;
+        font-size: 0.9rem;
+        margin: 0.25rem 0;
+    }
+}
+
+.wccp-submit-post:disabled,
+.wccp-submit-reply:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
