@@ -180,5 +180,47 @@ function wccp_handle_delete_post() {
 add_action('init', 'wccp_handle_delete_post');
 
 function wccp_handle_update_post() {
-    
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
+
+    if (!is_user_logged_in()) {
+        return;
+    }
+
+    if (!isset($_POST['wccp_update_post'])) {
+        return;
+    }
+
+    if (
+        !isset($_POST['wccp_update_nonce']) ||
+        !wp_verify_nonce($_POST['wccp_update_nonce'], 'wccp_update_post')
+    ) {
+        return;
+    }
+
+    $post_id = isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0;
+
+    if($post_id <= 0) {
+        wccp_add_notification('global', 'Invalid post ID.');
+        wccp_redirect();
+    }
+
+    $post = wccp_get_post_by_id($post_id);
+
+    if (!$post) {
+        wccp_add_notification('global', 'Post not found.');
+        wccp_redirect();
+    }
+
+    $updated = wccp_update_post($post_id, [
+        'title'   => sanitize_text_field($_POST['wccp_title']),
+        'content' => sanitize_textarea_field($_POST['wccp_content'])
+    ]);
+
+    wccp_add_notification('global', 'Post updated successfully.');
+
+    wccp_redirect();
 }
+
+add_action('init', 'wccp_handle_update_post');

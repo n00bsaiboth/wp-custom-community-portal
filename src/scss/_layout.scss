@@ -124,3 +124,26 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.wccp-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+
+    button {
+        cursor: pointer;
+    }
+}
+
+.wccp-edit-form {
+    margin-top: 0.75rem;
+
+    input,
+    textarea {
+        width: 100%;
+    }
+
+    button[type="submit"] {
+        margin-top: 0.5rem;
+    }
+}

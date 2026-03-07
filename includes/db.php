@@ -102,9 +102,24 @@ function wccp_delete_post($post_id) {
 }
 
 function wccp_get_post_by_id($post_id) {
-    
+    global $wpdb;
+
+    return $wpdb->get_row(
+        $wpdb->prepare(
+            "SELECT * FROM " . wccp_table() . " WHERE id = %d LIMIT 1",
+            $post_id
+        )
+    );
 }
 
 function wccp_update_post($post_id, $data) {
+    global $wpdb;
 
+    return $wpdb->update(
+        wccp_table(),
+        $data,
+        ['id' => $post_id],
+        ['%s', '%s']
+        ['%d']
+    );
 }
