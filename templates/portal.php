@@ -10,11 +10,8 @@
 
 <section id="wccp-portal" class="wccp-portal">
 
-    <div>
-        <?php wccp_load_template('notifications'); ?>
-    </div>
-
-
+    <?php wccp_load_template('notifications'); ?>
+    
     <?php foreach ($threads as $thread): ?>
 
         <?php wccp_load_template('thread', ['thread' => $thread]); ?>

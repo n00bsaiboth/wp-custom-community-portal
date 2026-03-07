@@ -6,7 +6,7 @@
     }
 ?>
 
-<div class="wccp-notifications is-visible">
+<div class="wccp-global-notifications is-visible">
 
     <?php foreach ($messages as $message): ?>
         <p class="wccp-notification">

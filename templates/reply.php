@@ -21,11 +21,10 @@
     
     <div class="wccp-content">
         <p><?php echo esc_html($reply->content); ?></p>
+        
         <?php wccp_load_template('attachments', ['post_id' => $reply->id]); ?>
 
-        <div class="wccp-actions">
-            <?php wccp_load_template('action-delete', ['post_id' => $reply->id]); ?>
-        </div>
+        <?php wccp_load_template('actions', ['post_id' => $reply->id]); ?>        
     </div>
 
     <?php
