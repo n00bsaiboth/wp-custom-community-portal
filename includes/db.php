@@ -66,3 +66,37 @@ function wccp_get_attachments($post_id) {
         )
     );
 }
+
+function wccp_get_attachment_by_filename($requested) {
+    global $wpdb;
+
+    return $wpdb->get_row(
+        $wpdb->prepare(
+            "SELECT * FROM " . wccp_attachments_table() . " WHERE file_path LIKE %s LIMIT 1",
+            '%' . $wpdb->esc_like($requested)
+        )
+    );
+}
+
+function wccp_post_has_children($post_id) {
+    global $wpdb;
+
+    $count = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT COUNT(*) FROM " . wccp_table() . " WHERE parent_id = %d",
+            $post_id
+        )
+    );
+
+    return $count > 0;
+}
+
+function wccp_delete_post($post_id) {
+    global $wpdb;
+
+    return $wpdb->delete(
+        wccp_table(),
+        ['id' => $post_id],
+        ['%d']
+    );
+}

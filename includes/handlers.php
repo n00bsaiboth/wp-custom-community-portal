@@ -1,6 +1,16 @@
 <?php
 
+if (!defined('ABSPATH')) exit;
+
 function wccp_handle_create_post() {
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
+
+    if (!is_user_logged_in()) {
+        return;
+    }
 
     if (!isset($_POST['wccp_submit_post'])) {
         return;
@@ -10,10 +20,6 @@ function wccp_handle_create_post() {
         !isset($_POST['wccp_post_nonce']) ||
         !wp_verify_nonce($_POST['wccp_post_nonce'], 'wccp_create_post')
     ) {
-        return;
-    }
-
-    if (!is_user_logged_in()) {
         return;
     }
 
@@ -35,6 +41,8 @@ function wccp_handle_create_post() {
             wccp_add_notification('create_thread', $error);
         }
 
+        wccp_add_notification('global', 'Something went wrong while creating a new thread.');
+
         return;
     }    
 
@@ -45,22 +53,26 @@ function wccp_handle_create_post() {
         'level'   => 1
     ]);
 
-
-    // $attachment = wccp_handle_attachment_upload('wccp_attachment');
-
     if ($attachment) {
         wccp_insert_attachment($post_id, $attachment);
     }
-    
-    $redirect_url = wccp_get_safe_redirect_url();
-    wp_safe_redirect(add_query_arg('posted', '1', $redirect_url));
 
-    exit;
+    wccp_add_notification('global', 'Thread posted successfully.');
+
+    wccp_redirect();
 }
 
 add_action('init', 'wccp_handle_create_post');
 
-function wccp_handle_reply() {
+function wccp_handle_create_reply() {
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
+
+    if (!is_user_logged_in()) {
+        return;
+    }
 
     if (!isset($_POST['wccp_submit_reply'])){
         return;
@@ -70,10 +82,6 @@ function wccp_handle_reply() {
         !isset($_POST['wccp_reply_nonce']) ||
         !wp_verify_nonce($_POST['wccp_reply_nonce'], 'wccp_create_reply')
     ) {
-        return;
-    }
-
-    if (!is_user_logged_in()) {
         return;
     }
 
@@ -103,6 +111,8 @@ function wccp_handle_reply() {
         foreach ($errors as $error) {
             wccp_add_notification($form_key, $error);
         }
+
+        wccp_add_notification('global', 'Something went wrong while creating a reply.');
         
         return;
     }
@@ -115,31 +125,58 @@ function wccp_handle_reply() {
         'level'     => $new_level
     ]);
 
-    // $attachment = wccp_handle_attachment_upload('wccp_attachment');
-
     if ($attachment) {
         wccp_insert_attachment($post_id, $attachment);
     }
 
-    $redirect_url = wccp_get_safe_redirect_url();
-    wp_safe_redirect(add_query_arg('replied', '1', $redirect_url));
+    wccp_add_notification('global', 'Reply posted successfully.');
 
-    exit;
+    wccp_redirect();
 }
 
-add_action('init', 'wccp_handle_reply');
+add_action('init', 'wccp_handle_create_reply');
 
-function wccp_get_safe_redirect_url() {
+function wccp_handle_delete_post() {
 
-    $redirect_url = wp_get_referer();
-
-    if (!$redirect_url) {
-        $redirect_url = remove_query_arg(['posted', 'replied', 'wccp_error']);
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
     }
 
-    if (!$redirect_url) {
-        $redirect_url = home_url('/');
+    if (!is_user_logged_in()) {
+        return;
     }
 
-    return $redirect_url;
+    if (!isset($_POST['wccp_delete_post'])) {
+        return;
+    }
+
+    if (
+        !isset($_POST['wccp_delete_nonce']) ||
+        !wp_verify_nonce($_POST['wccp_delete_nonce'], 'wccp_delete_post')
+    ) {
+        return;
+    }
+
+    $post_id = (int) $_POST['post_id'];
+
+    if (wccp_post_has_children($post_id)) {
+
+        wccp_add_notification('global', 'Cannot delete post because it has replies.');
+
+        wccp_redirect();
+    }
+
+    // delete files
+    wccp_delete_attachment_files($post_id);
+
+    // delete DB row
+    wccp_delete_post($post_id);
+
+    wccp_add_notification('global', 'Post deleted successfully.');
+
+    wccp_redirect();
 }
+
+add_action('init', 'wccp_handle_delete_post');
+
+

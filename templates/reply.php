@@ -1,7 +1,8 @@
-<?php $meta = wccp_get_entry_meta($reply); ?>
+<?php 
+    $meta = wccp_get_entry_meta($reply); 
+?>
 
-
-<article class="wccp-reply wccp-level-<?php echo (int) $reply->level; ?> wccp-entry">
+<article class="wccp-reply wccp-reply-<?php echo esc_attr($reply->id); ?> wccp-level-<?php echo (int) $reply->level; ?> wccp-entry">
     <header>
         <h3><?php echo esc_html($reply->title); ?>
             <svg class="icon" width="16" height="16" aria-hidden="true">
@@ -21,6 +22,10 @@
     <div class="wccp-content">
         <p><?php echo esc_html($reply->content); ?></p>
         <?php wccp_load_template('attachments', ['post_id' => $reply->id]); ?>
+
+        <div class="wccp-actions">
+            <?php wccp_load_template('action-delete', ['post_id' => $reply->id]); ?>
+        </div>
     </div>
 
     <?php

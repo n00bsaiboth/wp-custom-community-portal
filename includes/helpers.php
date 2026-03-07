@@ -109,22 +109,17 @@ function wccp_validate_file($file) {
 }
 
 function wccp_secure_download() {
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        return;
+    }
+
     if (!isset($_GET['wccp_download'])) {
         return;
     }
 
-    global $wpdb;
-
     $requested = sanitize_file_name($_GET['wccp_download']);
 
-    $table = wccp_attachments_table();
-
-    $file = $wpdb->get_row(
-        $wpdb->prepare(
-            "SELECT * FROM $table WHERE file_path LIKE %s LIMIT 1",
-            '%' . $wpdb->esc_like($requested)
-        )
-    );
+    $file = wccp_get_attachment_by_filename($requested);
 
     if (!$file) {
         wp_die('File not found.', '404 Not Found', ['response' => 404]);
@@ -262,4 +257,57 @@ function wccp_get_notifications($key) {
     }
 
     return $messages;
+}
+
+function wccp_get_global_notifications() {
+
+    $messages = wccp_get_notifications('global');
+
+    if(empty($messages)) {
+        return;
+    }
+
+    return $messages;
+}
+
+function wccp_delete_attachment_files($post_id) {
+
+    $attachments = wccp_get_attachments($post_id);
+
+    if (!$attachments) {
+        return;
+    }
+
+    foreach ($attachments as $attachment) {
+
+        if (file_exists($attachment->file_path)) {
+            unlink($attachment->file_path);
+        }
+    }
+}
+
+/**
+ * Redirects for handlers
+ */
+
+function wccp_redirect() {
+
+    $redirect_url = wccp_get_safe_redirect_url();
+    wp_safe_redirect($redirect_url);
+    exit;
+}
+
+function wccp_get_safe_redirect_url() {
+
+    $redirect_url = wp_get_referer();
+
+    if (!$redirect_url) {
+        $redirect_url = remove_query_arg(['posted', 'replied', 'deleted', 'updated', 'wccp_error']);
+    }
+
+    if (!$redirect_url) {
+        $redirect_url = home_url('/');
+    }
+
+    return $redirect_url;
 }
