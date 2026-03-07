@@ -5,9 +5,8 @@ import '../scss/style.scss';
 
 // Importing SVG sprite (if needed for inlining or other purposes)
 import sprite from '../images/sprite.svg';
-console.log(sprite);
 
-
+// Importing JavaScript modules for accordion functionality and form validation
 import { accordion } from './modules/accordion.js';
 import { validation } from './modules/validation.js';
 
@@ -16,8 +15,3 @@ document.addEventListener('DOMContentLoaded', () => {
     validation();
 });
 
-// const HelloWebpack = (name) => {
-//     console.log(`Hello, ${name}!`);
-// }
-
-// HelloWebpack('WP Custom Community Portal');

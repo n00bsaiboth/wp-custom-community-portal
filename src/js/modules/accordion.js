@@ -1,7 +1,6 @@
 "use strict";
 
 const accordion = () => {
-    console.log('Accordion module loaded');
 
     const portal = document.getElementById("wccp-portal");
 
