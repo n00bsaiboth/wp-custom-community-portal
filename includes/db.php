@@ -100,3 +100,11 @@ function wccp_delete_post($post_id) {
         ['%d']
     );
 }
+
+function wccp_get_post_by_id($post_id) {
+    
+}
+
+function wccp_update_post($post_id, $data) {
+
+}

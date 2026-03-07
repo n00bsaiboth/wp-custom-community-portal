@@ -179,4 +179,6 @@ function wccp_handle_delete_post() {
 
 add_action('init', 'wccp_handle_delete_post');
 
-
+function wccp_handle_update_post() {
+    
+}

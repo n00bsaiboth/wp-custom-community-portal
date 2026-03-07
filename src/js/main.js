@@ -9,9 +9,11 @@ import sprite from '../images/sprite.svg';
 // Importing JavaScript modules for accordion functionality and form validation
 import { accordion } from './modules/accordion.js';
 import { validation } from './modules/validation.js';
+import { handleUpdatePost } from './modules/handlers.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     accordion();
     validation();
+    handleUpdatePost();
 });
 
