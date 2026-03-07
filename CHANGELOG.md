@@ -4,6 +4,14 @@ This plugin is currently under a development.
 
 ## [0.0.3] - March 2026
 
+### Added
+
+- new global notification area on templates/portal.
+
+### Fixed
+
+- allow user to delete a thread or a reply.
+
 ### Needs to be done
 
 - Add missing fields to the forms and possible columns to the database.
