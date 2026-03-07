@@ -199,6 +199,22 @@ function wccp_handle_update_post() {
         return;
     }
 
+    $remove_attachment = isset($_POST['wccp_remove_attachment']);
+
+    $new_attachment = null;
+
+    if (!empty($_FILES['wccp_attachment']['name'])) {
+
+        $upload = wccp_handle_attachment_upload('wccp_attachment');
+
+        if (is_wp_error($upload)) {
+            wccp_add_notification('global', $upload->get_error_message());
+            wccp_redirect();
+        }
+
+        $new_attachment = $upload;
+    }
+
     $post_id = isset($_POST['post_id']) ? (int) $_POST['post_id'] : 0;
 
     if($post_id <= 0) {
@@ -217,6 +233,19 @@ function wccp_handle_update_post() {
         'title'   => sanitize_text_field($_POST['wccp_title']),
         'content' => sanitize_textarea_field($_POST['wccp_content'])
     ]);
+
+    if ($remove_attachment || $new_attachment) {
+
+        // delete old files
+        wccp_delete_attachment_files($post_id);
+
+        // delete old DB rows
+        wccp_delete_attachments($post_id);
+    }
+
+    if ($new_attachment) {
+        wccp_insert_attachment($post_id, $new_attachment);
+    }
 
     wccp_add_notification('global', 'Post updated successfully.');
 

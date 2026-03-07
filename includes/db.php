@@ -119,7 +119,17 @@ function wccp_update_post($post_id, $data) {
         wccp_table(),
         $data,
         ['id' => $post_id],
-        ['%s', '%s']
+        ['%s', '%s'],
+        ['%d']
+    );
+}
+
+function wccp_delete_attachments($post_id) {
+    global $wpdb;
+
+    return $wpdb->delete(
+        wccp_attachments_table(),
+        ['post_id' => $post_id],
         ['%d']
     );
 }

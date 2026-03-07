@@ -1,5 +1,7 @@
 <?php if (!isset($post)) return; ?>
 
+<?php $attachments = wccp_get_attachments($post->id); ?>
+
 <div class="wccp-action-update" data-wccp-edit-container>
     <button
         type="button"
@@ -16,6 +18,7 @@
         class="wccp-edit-form"
         data-wccp-edit-form
         method="post"
+        enctype="multipart/form-data"
         hidden
     >
         <?php wp_nonce_field('wccp_update_post', 'wccp_update_nonce'); ?>
@@ -43,7 +46,25 @@
             ><?php echo esc_textarea($post->content); ?></textarea>
         </div>
 
-        <button type="submit" name="wccp_update_post">Save</button>
+        <?php if (!empty($attachments)) : ?>
+            <div class="form-group">
+                <p><strong>Current attachment:</strong></p>
+                    <?php foreach ($attachments as $file): ?>
+                        <p><?php echo esc_html($file->original_name); ?></p>
 
+                        <label>
+                            <input type="checkbox" name="wccp_remove_attachment" value="1">
+                            Remove attachment
+                        </label>
+                    <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="form-group">
+            <label>Replace / Upload new PDF</label>
+            <input type="file" name="wccp_attachment" accept="application/pdf">
+        </div>
+
+        <button type="submit" name="wccp_update_post">Save</button>
     </form>
 </div>
