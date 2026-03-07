@@ -24,7 +24,7 @@
         
         <?php wccp_load_template('attachments', ['post_id' => $reply->id]); ?>
 
-        <?php wccp_load_template('actions', ['post_id' => $reply->id]); ?>        
+        <?php wccp_load_template('actions', ['post' => $reply]); ?>        
     </div>
 
     <?php

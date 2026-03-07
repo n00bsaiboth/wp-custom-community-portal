@@ -1,7 +1,7 @@
 "use strict";
 
 const handleUpdatePost = () => { 
-    console.log('Initializing update post handlers...');
+
     const toggles = document.querySelectorAll('[data-wccp-edit-toggle]');
     
     if (!toggles.length) {
@@ -22,7 +22,8 @@ const handleUpdatePost = () => {
                 return;
             }
 
-            const shouldOpen = form.ariaHidden;
+            const shouldOpen = form.hidden;
+
             form.hidden = !shouldOpen;
 
             toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
