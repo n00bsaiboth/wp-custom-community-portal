@@ -16,7 +16,7 @@ if (empty($attachments)) {
                 );    
             ?>
             <li>
-                <a href="<?php echo esc_url($download_url); ?>" target="_blank">
+                <a href="<?php echo esc_url($download_url); ?>" rel="noreferrer noopener" target="_blank">
                     <?php echo esc_html($att->original_name); ?>
                 </a>
             </li>
