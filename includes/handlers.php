@@ -159,6 +159,19 @@ function wccp_handle_delete_post() {
 
     $post_id = (int) $_POST['post_id'];
 
+    $post = wccp_get_post_by_id($post_id);
+
+    if (!$post) {
+        wccp_add_notification('global', 'Post was not found.');
+        wccp_redirect();
+    }
+
+    if ((int) $post->user_id !== (int) get_current_user_id()) {
+        wccp_add_notification('global', 'You are not allowed to delete this post.');
+        wccp_redirect();
+    }
+
+
     if (wccp_post_has_children($post_id)) {
 
         wccp_add_notification('global', 'Cannot delete post because it has replies.');
@@ -229,10 +242,20 @@ function wccp_handle_update_post() {
         wccp_redirect();
     }
 
+    if ((int) $post->user_id !== (int) get_current_user_id()) {
+        wccp_add_notification('global', 'You are not alloved to edit this post.');
+        wccp_redirect();
+    }
+
     $updated = wccp_update_post($post_id, [
         'title'   => sanitize_text_field($_POST['wccp_title']),
         'content' => sanitize_textarea_field($_POST['wccp_content'])
     ]);
+
+    if($updated === false) {
+        wccp_add_notification('global', 'Failed to update the post.');
+        wccp_redirect();
+    }
 
     if ($remove_attachment || $new_attachment) {
 

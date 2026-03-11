@@ -48,21 +48,21 @@
 
         <?php if (!empty($attachments)) : ?>
             <div class="form-group">
-                <p><strong>Current attachment:</strong></p>
+                <label>Current attachment</label>
                     <?php foreach ($attachments as $file): ?>
                         <p><?php echo esc_html($file->original_name); ?></p>
 
-                        <label>
-                            <input type="checkbox" name="wccp_remove_attachment" value="1">
-                            Remove attachment
-                        </label>
+                        <div class="remove-attachments">
+                            <input type="checkbox" name="wccp_remove_attachment" value="1" id="wccp-remove-attachment-<?php echo esc_attr($file->id); ?>">
+                            <label for="wccp-remove-attachment-<?php echo esc_attr($file->id); ?>">Remove attachment</label>
+                        </div>
                     <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
         <div class="form-group">
-            <label>Replace / Upload new PDF</label>
-            <input type="file" name="wccp_attachment" accept="application/pdf">
+            <label for="wccp-edit-attachment-<?php echo esc_attr($post->id); ?>">Replace / Upload new PDF</label>
+            <input type="file" id="wccp-edit-attachment-<?php echo esc_attr($post->id); ?>" name="wccp_attachment" accept="application/pdf">
         </div>
 
         <button type="submit" name="wccp_update_post">Save</button>
