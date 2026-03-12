@@ -11,6 +11,7 @@ This plugin is currently under a development.
 ### Fixed
 
 - allow user to delete a thread or a reply.
+- allow user to edit a thread or a reply.
 
 ### Needs to be done
 
